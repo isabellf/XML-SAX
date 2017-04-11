@@ -21,7 +21,7 @@ before_install:
  - build-perl
  - perl -V
  - build-dist
-#  - cd $BUILD_DIR
+ - cd $BUILD_DIR
 #  - perl Makefile.PL
 #  - make
 #  - cd ./blib
@@ -30,6 +30,7 @@ install:
   - cpan-install Devel::Cover
   - cpan-install --deps
   - cpan-install --coverage
+  - make install
 
 before_script:
   - coverage-setup
