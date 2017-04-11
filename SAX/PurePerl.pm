@@ -5,7 +5,7 @@ package XML::SAX::PurePerl;
 use strict;
 use vars qw/$VERSION/;
 
-$VERSION = '0.99';
+$VERSION = '0.99_01';
 
 use XML::SAX::PurePerl::Productions qw($NameChar $SingleChar);
 use XML::SAX::PurePerl::Reader;
@@ -592,27 +592,29 @@ sub AttValue {
 
 sub Comment {
     my ($self, $reader) = @_;
-    
+
     my $data = $reader->data(4);
     if ($data =~ /^<!--/) {
-        $reader->move_along(4);
+        $reader->move_along(4);    # skip comment start
+
+	$data = $reader->data;
+	while ($data !~ m!-->!) {
+	    my $n = $reader->read_more;
+	     $self->parser_error("End of data seen while looking for close comment marker", $reader)
+                unless $n;
+	    $data = $reader->data;
+	}
+
         my $comment_str = '';
-        while (1) {
-            my $data = $reader->data;
-            $self->parser_error("End of data seen while looking for close comment marker", $reader)
-                unless length($data);
-            if ($data =~ /^(.*?)-->/s) {
-                $comment_str .= $1;
-                $self->parser_error("Invalid comment (dash)", $reader) if $comment_str =~ /-$/;
-                $reader->move_along(length($1) + 3);
-                last;
-            }
-            else {
-                $comment_str .= $data;
-                $reader->move_along(length($data));
-            }
-        }
-        
+	if ($data =~ /^(.*?)-->/s) {
+	    $comment_str = $1;
+	    $self->parser_error("Invalid comment (dash)", $reader) if $comment_str =~ /-$/;
+	    $reader->move_along(length($1) + 3);
+	}
+	else {
+	    return 0;
+	}
+
         $self->comment({ Data => $comment_str });
         
         return 1;
