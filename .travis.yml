@@ -20,6 +20,9 @@ before_install:
   - build-perl
   - perl -V
   - build-dist
+  - perl Makefile.PL
+  - make
+  - cd ./blib
 
 install:
   - cpan-install Devel::Cover
