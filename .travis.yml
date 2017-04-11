@@ -15,12 +15,12 @@ os:
     - linux
 
 before_install:
-  - cpanm --notest XML::SAX::Base XML::NamespaceSupport
-# - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-# - source ~/travis-perl-helpers/init
-#  - build-perl
-#  - perl -V
-#  - build-dist
+ - cpanm --notest XML::SAX::Base XML::NamespaceSupport
+ - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
+ - source ~/travis-perl-helpers/init
+ - build-perl
+ - perl -V
+ - build-dist
 #  - cd $BUILD_DIR
 #  - perl Makefile.PL
 #  - make
