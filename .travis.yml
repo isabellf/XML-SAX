@@ -2,27 +2,29 @@ language: perl
 
 perl:
     - "5.22"
-    - "5.20"
-    - "5.18"
-    - "5.16"
-    - "5.14"
-    - "5.12"
-    - "5.10"
-    - "5.8"
+#    - "5.20"
+#   - "5.18"
+#    - "5.16"
+#    - "5.14"
+#
+#    - "5.12"
+#    - "5.10"
+#    - "5.8"
 
 os:
     - linux
 
 before_install:
-  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-
-  - source ~/travis-perl-helpers/init
-  - build-perl
-  - perl -V
-  - build-dist
-  - perl Makefile.PL
-  - make
-  - cd ./blib
+  - cpanm --notest XML::SAX::Base XML::NamespaceSupport
+# - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
+# - source ~/travis-perl-helpers/init
+#  - build-perl
+#  - perl -V
+#  - build-dist
+#  - cd $BUILD_DIR
+#  - perl Makefile.PL
+#  - make
+#  - cd ./blib
 
 install:
   - cpan-install Devel::Cover
