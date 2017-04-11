@@ -20,7 +20,6 @@ before_install:
   - build-perl
   - perl -V
   - build-dist
-  - cd $BUILD_DIR
 
 install:
   - cpan-install Devel::Cover
